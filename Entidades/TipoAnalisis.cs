@@ -12,12 +12,12 @@ namespace Entidades
 
         [Key]
         public int TiposId { get; set; }
-        public string Analisis { get; set; }
+        public string Descripcion { get; set; }
         public DateTime FechaRegistro { get; set; }
         public TipoAnalisis()
         {
             TiposId = 0;
-            Analisis = string.Empty;
+            Descripcion = string.Empty;
             FechaRegistro = DateTime.Now;
         }
     }
