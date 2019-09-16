@@ -10,11 +10,10 @@ using System.Web.UI.WebControls;
 
 namespace pAnalisisMD.Registros
 {
-    public partial class rPacientes : System.Web.UI.Page
+    public partial class rTipoAnalisis : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
 
             {
                 if (!Page.IsPostBack)
@@ -22,7 +21,7 @@ namespace pAnalisisMD.Registros
                     int id = Utils.ToInt(Request.QueryString["id"]);
                     if (id > 0)
                     {
-                        RepositorioBase<Pacientes> repositorio = new RepositorioBase<Pacientes>();
+                        RepositorioBase<TipoAnalisis> repositorio = new RepositorioBase<TipoAnalisis>();
                         var registro = repositorio.Buscar(id);
 
                         if (registro == null)
@@ -43,9 +42,7 @@ namespace pAnalisisMD.Registros
         protected void Limpiar()
         {
             IdTextBox.Text = "0";
-            NombresTextBox.Text = string.Empty;
-            DireccionTextBox.Text = string.Empty;
-            TelefonoTextBox.Text = string.Empty;
+            DescripcionTextBox.Text = string.Empty;
         }
 
         protected void NuevoButton_Click(object sender, EventArgs e)
@@ -53,43 +50,37 @@ namespace pAnalisisMD.Registros
             Limpiar();
         }
 
-        protected Pacientes LlenaClase(Pacientes pacientes)
+        protected TipoAnalisis LlenaClase(TipoAnalisis tipoAnalisis)
         {
-            pacientes.PacienteId = Utils.ToInt(IdTextBox.Text);
-            pacientes.Nombres = NombresTextBox.Text;
-            pacientes.Direccion = DireccionTextBox.Text;
-            pacientes.Telefono = TelefonoTextBox.Text;
-
-            return pacientes;
+            tipoAnalisis.TiposId = Utils.ToInt(IdTextBox.Text);
+            tipoAnalisis.Descripcion = DescripcionTextBox.Text;
+            return tipoAnalisis;
         }
 
-        private void LlenaCampos(Pacientes pacientes)
+        private void LlenaCampos(TipoAnalisis tipoAnalisis)
         {
-            IdTextBox.Text = Convert.ToString(pacientes.PacienteId);
-            NombresTextBox.Text = pacientes.Nombres;
-            DireccionTextBox.Text = pacientes.Direccion;
-            TelefonoTextBox.Text = pacientes.Telefono;
+            IdTextBox.Text = Convert.ToString(tipoAnalisis.TiposId);
+            DescripcionTextBox.Text = tipoAnalisis.Descripcion;
         }
-
 
         private bool ExisteEnLaBaseDeDatos()
         {
-            RepositorioBase<Pacientes> repositorio = new RepositorioBase<Pacientes>();
-            Pacientes pacientes = repositorio.Buscar(Utils.ToInt(IdTextBox.Text));
-            return (pacientes != null);
+            RepositorioBase<TipoAnalisis> repositorio = new RepositorioBase<TipoAnalisis>();
+            TipoAnalisis tipoAnalisis = repositorio.Buscar(Utils.ToInt(IdTextBox.Text));
+            return (tipoAnalisis != null);
         }
 
         protected void GuardarButton_Click1(object sender, EventArgs e)
         {
-             RepositorioBase<Pacientes> Repositorio = new RepositorioBase<Pacientes>();
-            Pacientes pacientes = new Pacientes();
+            RepositorioBase<TipoAnalisis> Repositorio = new RepositorioBase<TipoAnalisis>();
+            TipoAnalisis tipoAnalisis = new TipoAnalisis();
             bool paso = false;
 
-            pacientes = LlenaClase(pacientes);
+            tipoAnalisis = LlenaClase(tipoAnalisis);
 
             if (Utils.ToInt(IdTextBox.Text) == 0)
             {
-                paso = Repositorio.Guardar(pacientes);
+                paso = Repositorio.Guardar(tipoAnalisis);
                 Limpiar();
             }
             else
@@ -100,7 +91,7 @@ namespace pAnalisisMD.Registros
                     Utils.ShowToastr(this, "No se pudo guardar", "Error", "error");
                     return;
                 }
-                paso = Repositorio.Modificar(pacientes);
+                paso = Repositorio.Modificar(tipoAnalisis);
                 Limpiar();
             }
 
@@ -118,18 +109,18 @@ namespace pAnalisisMD.Registros
 
         protected void BuscarButton_Click1(object sender, EventArgs e)
         {
-            RepositorioBase<Pacientes> repositorio = new RepositorioBase<Pacientes>();
-            var pacientes = repositorio.Buscar(Utils.ToInt(IdTextBox.Text));
+            RepositorioBase<TipoAnalisis> repositorio = new RepositorioBase<TipoAnalisis>();
+            var usuario = repositorio.Buscar(Utils.ToInt(IdTextBox.Text));
 
-            if (pacientes != null)
+            if (usuario != null)
             {
                 Limpiar();
-                LlenaCampos(pacientes);
+                LlenaCampos(usuario);
                 Utils.ShowToastr(this, "Busqueda exitosa", "Exito", "success");
             }
             else
             {
-                Utils.ShowToastr(this.Page, "El paciente que intenta buscar no existe", "Error", "error");
+                Utils.ShowToastr(this.Page, "El usuario que intenta buscar no existe", "Error", "error");
                 Limpiar();
             }
         }
@@ -139,7 +130,7 @@ namespace pAnalisisMD.Registros
             if (Utils.ToInt(IdTextBox.Text) > 0)
             {
                 int id = Convert.ToInt32(IdTextBox.Text);
-                RepositorioBase<Pacientes> repositorio = new RepositorioBase<Pacientes>();
+                RepositorioBase<TipoAnalisis> repositorio = new RepositorioBase<TipoAnalisis>();
                 if (repositorio.Eliminar(id))
                 {
 
@@ -151,7 +142,7 @@ namespace pAnalisisMD.Registros
             }
             else
             {
-                Utils.ShowToastr(this.Page, "No se pudo eliminar, paciente no existe", "error", "error");
+                Utils.ShowToastr(this.Page, "No se pudo eliminar, usuario no existe", "error", "error");
             }
         }
 

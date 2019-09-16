@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 
-namespace RegistroAnalisisD.Utilitarios
+namespace pAnalisisMD.Utilitarios
 {
     public static class Utils
     {
