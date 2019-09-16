@@ -14,7 +14,10 @@ namespace Entidades
             public int AnalisisId { get; set; }
             public string Paciente { get; set; }
             public DateTime FechaRegistro { get; set; }
-            public virtual List<AnalisisDetalle> Detalle { get; set; }
+            public decimal Monto { get; set; }
+            public decimal Balance { get; set; }
+
+        public virtual List<AnalisisDetalle> Detalle { get; set; }
 
             public Analisis()
             {
