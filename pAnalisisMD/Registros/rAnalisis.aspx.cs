@@ -12,6 +12,8 @@ namespace pAnalisisMD.Registros
 {
     public partial class rAnalisis : System.Web.UI.Page
     {
+        public decimal Sumatoria;
+        public decimal total;
         protected void Page_Load(object sender, EventArgs e)
         {
             TipoAnalisis tipoAnalisis = new TipoAnalisis();
@@ -25,10 +27,12 @@ namespace pAnalisisMD.Registros
                 TipoAnalisisDropDownList.DataTextField = "Descripcion";
                 FechaTextBox.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 TipoAnalisisDropDownList.DataBind();
-
+                Sumatoria += total;
                 LlenarDropDownListAnalisis();
                 ViewState["Analisis"] = new Analisis();
+                ViewState["Detalle"] = new Analisis().Detalle;
                 BindGrid();
+                Sumatoria = 0;
             }
         }
         protected void BindGrid()
@@ -75,6 +79,23 @@ namespace pAnalisisMD.Registros
             this.BindGrid();
         }
 
+        private void LlenaValores()
+        {
+            total = 0;
+            int id = 0;
+
+            //List<AnalisisDetalle> lista = (List<AnalisisDetalle>)ViewState["Detalle"];
+
+            RepositorioBase<TipoAnalisis> repositorio = new RepositorioBase<TipoAnalisis>();
+            id = Convert.ToInt32(TipoAnalisisDropDownList.SelectedValue);
+            TipoAnalisis tipoAnalisis = repositorio.Buscar(id);
+
+            total = tipoAnalisis.Precio;
+            Sumatoria += total;
+            MontoTextBox.Text = Sumatoria.ToString();
+            BalanceTextBox.Text = Sumatoria.ToString();
+        }
+
         protected void LimpiarButton_Click(object sender, EventArgs e)
         {
             Limpiar();
@@ -91,6 +112,7 @@ namespace pAnalisisMD.Registros
             ViewState["Analisis"] = analisis;
 
             this.BindGrid();
+            LlenaValores();
         }
 
         protected void Grid_RowDeleting(object sender, GridViewDeleteEventArgs e)

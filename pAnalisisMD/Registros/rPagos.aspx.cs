@@ -52,61 +52,7 @@ namespace pAnalisisMD.Registros
         {
             Limpiar();
         }
-        protected void GuadarButton_Click(object sender, EventArgs e)
-        {
-            bool paso = false;
-            RepositorioPago repositorio = new RepositorioPago();
-            Pagos pagos = LlenaClase();
-
-            if (pagos.PagoId == 0)
-                paso = RepositorioPago.Guardar(pagos);
-            else
-            {
-                if (ExisteEnLaBaseDeDatos())
-                {
-                    Utils.ShowToastr(this.Page, "No se pudo guardar!!", "Error", "error");
-                    return;
-                }
-                paso = RepositorioPago.Modificar(pagos);
-            }
-            if (paso)
-            {
-                Limpiar();
-                Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
-            }
-
-        }
-        protected void BuscarButton_Click(object sender, EventArgs e)
-        {
-            RepositorioPago repositorio = new RepositorioPago();
-            Pagos pagos = RepositorioPago.Buscar(PagoIdTextBox.Text.ToInt());
-            if (pagos !=null)
-            {
-                Limpiar();
-                LlenarCampos(pagos);
-            }
-            else
-                Utils.ShowToastr(this.Page, "El analisis que intenta buscar no existe", "Error", "error");
-        }
-        protected void EliminarButton_Click(object sender, EventArgs e)
-        {
-            RepositorioPago repositorio = new RepositorioPago();
-            int id = PagoIdTextBox.Text.ToInt();
-            if (ExisteEnLaBaseDeDatos())
-            {
-                Utils.ShowToastr(this.Page, "No se pudo eliminar", "Error", "error");
-                return;
-            }
-            else
-            {
-                if (RepositorioPago.Eliminar(id))
-                {
-                    Utils.ShowToastr(this.Page, "Eliminado con exito!!", "Error", "success");
-                    Limpiar();
-                }
-            }
-
-        }
+  
         private void LlenarCampos(Pagos pagos)
         {
             PagoIdTextBox.Text = pagos.PagoId.ToString();
@@ -158,6 +104,62 @@ namespace pAnalisisMD.Registros
             ViewState["Pagos"] = pago;
             this.BindGrid();
             MontoTextBox.Text = string.Empty;
+        }
+
+        protected void GuardarButton_Click(object sender, EventArgs e)
+        {
+            bool paso = false;
+            RepositorioPago repositorio = new RepositorioPago();
+            Pagos pagos = LlenaClase();
+
+            if (pagos.PagoId == 0)
+                paso = RepositorioPago.Guardar(pagos);
+            else
+            {
+                if (ExisteEnLaBaseDeDatos())
+                {
+                    Utils.ShowToastr(this.Page, "No se pudo guardar!!", "Error", "error");
+                    return;
+                }
+                paso = RepositorioPago.Modificar(pagos);
+            }
+            if (paso)
+            {
+                Limpiar();
+                Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
+            }
+        }
+
+        protected void BuscarButton_Click(object sender, EventArgs e)
+        {
+            RepositorioPago repositorio = new RepositorioPago();
+            Pagos pagos = RepositorioPago.Buscar(PagoIdTextBox.Text.ToInt());
+            if (pagos != null)
+            {
+                Limpiar();
+                LlenarCampos(pagos);
+            }
+            else
+                Utils.ShowToastr(this.Page, "El analisis que intenta buscar no existe", "Error", "error");
+        }
+        protected void EliminarButton_Click1(object sender, EventArgs e)
+        {
+            RepositorioPago repositorio = new RepositorioPago();
+            int id = PagoIdTextBox.Text.ToInt();
+            if (ExisteEnLaBaseDeDatos())
+            {
+                Utils.ShowToastr(this.Page, "No se pudo eliminar", "Error", "error");
+                return;
+            }
+            else
+            {
+                if (RepositorioPago.Eliminar(id))
+                {
+                    Utils.ShowToastr(this.Page, "Eliminado con exito!!", "Error", "success");
+                    Limpiar();
+                }
+            }
+
         }
     }
 }
