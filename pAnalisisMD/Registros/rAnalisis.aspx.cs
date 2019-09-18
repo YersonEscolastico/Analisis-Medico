@@ -59,11 +59,10 @@ namespace pAnalisisMD.Registros
         public void LlenarCampos(Analisis analisis)
         {
             Limpiar();
-            
+            ((Analisis)ViewState["Analisis"]).Detalle = analisis.Detalle;
             analisis.FechaRegistro = Utils.ToDateTime(FechaTextBox.Text);
             MontoTextBox.Text = analisis.Monto.ToString();
             BalanceTextBox.Text = analisis.Balance.ToString();
-            ViewState["Analisis"] = new Analisis();
             this.BindGrid();
         }
         protected void Limpiar()
@@ -92,7 +91,6 @@ namespace pAnalisisMD.Registros
             ViewState["Analisis"] = analisis;
 
             this.BindGrid();
-            MontoTextBox.Text = "";
         }
 
         protected void Grid_RowDeleting(object sender, GridViewDeleteEventArgs e)

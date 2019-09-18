@@ -14,7 +14,6 @@ namespace pAnalisisMD.Registros
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
             {
                 if (!Page.IsPostBack)
                 {
@@ -43,7 +42,7 @@ namespace pAnalisisMD.Registros
         {
             IdTextBox.Text = "0";
             DescripcionTextBox.Text = string.Empty;
-            PrecioTextBox.Text = "0";
+            PrecioTextBox.Text ="0";
         }
 
         protected void NuevoButton_Click(object sender, EventArgs e)
@@ -55,7 +54,7 @@ namespace pAnalisisMD.Registros
         {
             tipoAnalisis.TiposId = Utils.ToInt(IdTextBox.Text);
             tipoAnalisis.Descripcion = DescripcionTextBox.Text;
-            tipoAnalisis.Precio = 0;
+            tipoAnalisis.Precio = PrecioTextBox.Text.ToDecimal();
             return tipoAnalisis;
         }
 
