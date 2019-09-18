@@ -12,18 +12,29 @@ namespace Entidades
     {
         [Key]
         public int DetalleId { get; set; }
+        public int AnalisisId { get; set; }
         public string Resultado { get; set; }
         public string Analisis { get; set; }
+        public int TipoId { get; set; }
+        public string Descripcion { get; set; }
+
+        public virtual TipoAnalisis TipoAnalisis { get; set; }
         public AnalisisDetalle()
         {
             DetalleId = 0;
+            AnalisisId = 0;
             Analisis = string.Empty;
             Resultado = string.Empty;
+            TipoId = 0;
+            Descripcion = string.Empty;
+
+
         }
-        public AnalisisDetalle(string analisis, string resultado)
+        public AnalisisDetalle(int analisisId, string resultado, string descripcion)
         {
-            Analisis = analisis;
+            AnalisisId = analisisId;
             Resultado = resultado;
+            Descripcion = descripcion;
         }
     }
 }

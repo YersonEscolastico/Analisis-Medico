@@ -13,15 +13,19 @@ namespace Entidades
         [Key]
         public int PagoId { get; set; }
         public int AnalisisId { get; set; }
-        public decimal MontoPago { get; set; }
         public DateTime FechaRegistro { get; set; }
 
+        public virtual List<PagosDetalle> Detalle { get; set; }
         public Pagos()
         {
             PagoId = 0;
             AnalisisId = 0;
             FechaRegistro = DateTime.Now;
-            MontoPago = 0;
+        }
+
+        public void AgregarDetalle(int analisisId, int pagoId, decimal montopago)
+        {
+            this.Detalle.Add(new PagosDetalle(analisisId, pagoId, montopago));
         }
     }
 }

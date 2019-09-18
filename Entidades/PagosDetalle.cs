@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace Entidades
 {
     public class PagosDetalle
     {
+        [Key]
         public int DetallePagoId { get; set; }
         public int PagoId { get; set; }
         public int AnalisisId { get; set; }
@@ -22,10 +24,11 @@ namespace Entidades
             MontoPago = 0;
             FechaRegistro = DateTime.Now;
         }
-        public PagosDetalle( int analisisId, decimal montoPago)
+        public PagosDetalle( int analisisId, int pagoId, decimal montopago)
         {
             AnalisisId = analisisId;
-            MontoPago = montoPago;
+            PagoId = pagoId;
+            MontoPago = montopago;
             FechaRegistro = DateTime.Now;
         }
     }

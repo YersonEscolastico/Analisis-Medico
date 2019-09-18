@@ -16,6 +16,7 @@ namespace pAnalisisMD.Utilitarios
             return retorno;
         }
 
+
         public static int ToIntO(object valor)
         {
             int retorno = 0;
@@ -30,12 +31,10 @@ namespace pAnalisisMD.Utilitarios
             return value;
         }
 
-        public static decimal ToDecimal(string valor)
+          public static Decimal ToDecimal(this object obj)
         {
-            decimal retorno = 0;
-            decimal.TryParse(valor, out retorno);
-
-            return retorno;
+            Decimal.TryParse(obj.ToString(), out Decimal value);
+            return value;
         }
 
         public static DateTime ToDateTime(string valor)

@@ -43,6 +43,7 @@ namespace pAnalisisMD.Registros
         {
             IdTextBox.Text = "0";
             DescripcionTextBox.Text = string.Empty;
+            PrecioTextBox.Text = "0";
         }
 
         protected void NuevoButton_Click(object sender, EventArgs e)
@@ -54,6 +55,7 @@ namespace pAnalisisMD.Registros
         {
             tipoAnalisis.TiposId = Utils.ToInt(IdTextBox.Text);
             tipoAnalisis.Descripcion = DescripcionTextBox.Text;
+            tipoAnalisis.Precio = 0;
             return tipoAnalisis;
         }
 
@@ -61,9 +63,10 @@ namespace pAnalisisMD.Registros
         {
             IdTextBox.Text = Convert.ToString(tipoAnalisis.TiposId);
             DescripcionTextBox.Text = tipoAnalisis.Descripcion;
+            PrecioTextBox.Text = tipoAnalisis.Precio.ToString();
         }
 
-        private bool ExisteEnLaBaseDeDatos()
+        private bool ExistEnLaBaseDeDatos()
         {
             RepositorioBase<TipoAnalisis> repositorio = new RepositorioBase<TipoAnalisis>();
             TipoAnalisis tipoAnalisis = repositorio.Buscar(Utils.ToInt(IdTextBox.Text));
@@ -85,7 +88,7 @@ namespace pAnalisisMD.Registros
             }
             else
             {
-                if (!ExisteEnLaBaseDeDatos())
+                if (!ExistEnLaBaseDeDatos())
                 {
 
                     Utils.ShowToastr(this, "No se pudo guardar", "Error", "error");
@@ -110,12 +113,12 @@ namespace pAnalisisMD.Registros
         protected void BuscarButton_Click1(object sender, EventArgs e)
         {
             RepositorioBase<TipoAnalisis> repositorio = new RepositorioBase<TipoAnalisis>();
-            var usuario = repositorio.Buscar(Utils.ToInt(IdTextBox.Text));
+            var tipo = repositorio.Buscar(Utils.ToInt(IdTextBox.Text));
 
-            if (usuario != null)
+            if (tipo != null)
             {
                 Limpiar();
-                LlenaCampos(usuario);
+                LlenaCampos(tipo);
                 Utils.ShowToastr(this, "Busqueda exitosa", "Exito", "success");
             }
             else

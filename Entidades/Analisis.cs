@@ -12,7 +12,7 @@ namespace Entidades
         {
             [Key]
             public int AnalisisId { get; set; }
-            public string Paciente { get; set; }
+            public int PacienteId { get; set; }
             public DateTime FechaRegistro { get; set; }
             public decimal Monto { get; set; }
             public decimal Balance { get; set; }
@@ -22,9 +22,14 @@ namespace Entidades
             public Analisis()
             {
                 AnalisisId = 0;
-                Paciente = string.Empty;
+                PacienteId = 0;
                 FechaRegistro = DateTime.Now;
                 Detalle = new List<AnalisisDetalle>();
             }
+
+        public void AgregarDetalle( int analisisId, string resultado,string descripcion)
+        {
+            this.Detalle.Add(new AnalisisDetalle(analisisId, resultado,descripcion));
         }
+       }
     }
