@@ -28,8 +28,6 @@ namespace BLL
                         contexto.Analisis.Find(item.AnalisisId).Balance -= (decimal)item.MontoPagado;
                     }
 
-                    //contexto.Analisis.Find(pago.AnalisisId).Balance -= (decimal)pago.Pagado;
-
                     contexto.SaveChanges(); 
                     paso = true;
                 }
