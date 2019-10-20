@@ -7,19 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace pAnalisisMD {
+namespace pAnalisisMD.Reportes {
     
     
-    public partial class Site {
-        
-        /// <summary>
-        /// ContentPlaceHolder control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder;
+    public partial class ReportePagos {
         
         /// <summary>
         /// form1 control.
@@ -31,12 +22,12 @@ namespace pAnalisisMD {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// MainContent control.
+        /// MyReportViewer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::Microsoft.Reporting.WebForms.ReportViewer MyReportViewer;
     }
 }

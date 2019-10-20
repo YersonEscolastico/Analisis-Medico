@@ -12,107 +12,145 @@ namespace pAnalisisMD.Registros
 {
     public partial class rAnalisis : System.Web.UI.Page
     {
-        public decimal Sumatoria;
-        public decimal total;
         protected void Page_Load(object sender, EventArgs e)
         {
-            TipoAnalisis tipoAnalisis = new TipoAnalisis();
 
             if (!Page.IsPostBack)
             {
-                RepositorioBase<TipoAnalisis> repositorioBase = new RepositorioBase<TipoAnalisis>();
+                ValoresDeDropdowns();
+                LimpiarAnalisis();
+                LimpiarTipoAnalisis();
 
-                TipoAnalisisDropDownList.DataSource = repositorioBase.GetList(t => true);
-                TipoAnalisisDropDownList.DataValueField = "TiposId";
-                TipoAnalisisDropDownList.DataTextField = "Descripcion";
-                FechaTextBox.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                TipoAnalisisDropDownList.DataBind();
-                Sumatoria += total;
-                LlenarDropDownListAnalisis();
                 ViewState["Analisis"] = new Analisis();
-                ViewState["Detalle"] = new Analisis().Detalle;
                 BindGrid();
-                Sumatoria = 0;
             }
+        }
+
+        private void ValoresDeDropdowns()
+        {
+            RepositorioBase<Pacientes> db = new RepositorioBase<Pacientes>();
+            var listado = new List<Pacientes>();
+            listado = db.GetList(p => true);
+            PacienteDropDown.DataSource = listado;
+            PacienteDropDown.DataValueField = "PacienteId";
+            PacienteDropDown.DataTextField = "Nombres";
+            PacienteDropDown.DataBind();
+
+            RepositorioBase<TipoAnalisis> repositorio = new RepositorioBase<TipoAnalisis>();
+            var list = new List<TipoAnalisis>();
+            list = repositorio.GetList(p => true);
+            TiposAnalisisDropDown.DataSource = list;
+            TiposAnalisisDropDown.DataValueField = "TiposId";
+            TiposAnalisisDropDown.DataTextField = "Analisis";
+            TiposAnalisisDropDown.DataBind();
         }
         protected void BindGrid()
         {
             if (ViewState["Analisis"] != null)
             {
-                DetalleGridView.DataSource = ((Analisis)ViewState["Analisis"]).Detalle;
-                DetalleGridView.DataBind();
+                Grid.DataSource = ((Analisis)ViewState["Analisis"]).Detalle;
+                Grid.DataBind();
             }
         }
-
-        public Analisis LlenarClase()
+        private void LimpiarAnalisis()
         {
-            Analisis analisis = new Analisis();
-
-            analisis = (Analisis)ViewState["Analisis"];
-            TipoAnalisis a = new TipoAnalisis();
-            analisis.AnalisisId = Utilitarios.Utils.ToInt(AnalisisIdTextBox.Text);
-            analisis.AnalisisId = AnalisisIdTextBox.Text.ToInt();
-            analisis.PacienteId = PacienteDropDownList.SelectedValue.ToInt();
-            analisis.FechaRegistro = Utils.ToDateTime(FechaTextBox.Text);
-            analisis.Monto = a.Precio;
-            analisis.Balance = 0;
-
-            return analisis;
-        }
-
-        public void LlenarCampos(Analisis analisis)
-        {
-            Limpiar();
-            ((Analisis)ViewState["Analisis"]).Detalle = analisis.Detalle;
-            analisis.FechaRegistro = Utils.ToDateTime(FechaTextBox.Text);
-            MontoTextBox.Text = analisis.Monto.ToString();
-            BalanceTextBox.Text = analisis.Balance.ToString();
-            this.BindGrid();
-        }
-        protected void Limpiar()
-        {
-            PacienteDropDownList.ClearSelection();
-            TipoAnalisisDropDownList.ClearSelection();
+            IDTextBox.Text = "0";
+            FechaTextBox.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            PacienteDropDown.SelectedIndex = 0;
+            TiposAnalisisDropDown.SelectedIndex = 0;
             ResultadoTextBox.Text = string.Empty;
-            MontoTextBox.Text = 0.ToString();
-            BalanceTextBox.Text = 0.ToString();
+            MontoTextBox.Text = string.Empty;
+            BalanceTextBox.Text = string.Empty;
+            Grid.DataSource = null;
+            Grid.DataBind();
+        }
+        private void LimpiarTipoAnalisis()
+        {
+            TiposIdTextBox.Text = "0";
+            AnalisisTextBox.Text = string.Empty;
+            PrecioTextBox.Text = string.Empty;
+            TiposAnalisisFechaTextBox.Text = DateTime.Now.ToString("yyyy-MM-dd");
+        }
+        private bool TiposExisteEnLaBaseDeDatos()
+        {
+            RepositorioBase<TipoAnalisis> Repositorio = new RepositorioBase<TipoAnalisis>();
+            TipoAnalisis Tipos = Repositorio.Buscar(Utils.ToInt(TiposIdTextBox.Text));
+            return (Tipos != null);
+        }
+        private bool AnalisisExisteEnLaBaseDeDatos()
+        {
+            RepositorioBase<Analisis> Repositorio = new RepositorioBase<Analisis>();
+            Analisis Analisis = Repositorio.Buscar(Utils.ToInt(IDTextBox.Text));
+            return (Analisis != null);
+        }
+        private TipoAnalisis TiposLlenaClase()
+        {
+            TipoAnalisis Tipos = new TipoAnalisis();
+
+            Tipos.TiposId = Utils.ToInt(TiposIdTextBox.Text);
+            Tipos.Analisis = AnalisisTextBox.Text;
+            Tipos.Precio = Utils.ToDecimal(PrecioTextBox.Text);
+            Tipos.Fecha = Utils.ToDateTime(TiposAnalisisFechaTextBox.Text);
+
+            return Tipos;
+        }
+        private Analisis AnalisisLlenaClase()
+        {
+            Analisis Analisis = new Analisis();
+
+            Analisis = (Analisis)ViewState["Analisis"];
+            Analisis.AnalisisId = Utils.ToInt(IDTextBox.Text);
+            Analisis.Paciente = PacienteDropDown.SelectedItem.ToString();
+            Analisis.Balance = Utils.ToDecimal(BalanceTextBox.Text);
+            Analisis.Monto = Utils.ToDecimal(MontoTextBox.Text);
+            Analisis.Fecha = Utils.ToDateTime(FechaTextBox.Text);
+
+            return Analisis;
+        }
+        private void LlenaCampo(TipoAnalisis Tipos)
+        {
+            TiposIdTextBox.Text = Tipos.TiposId.ToString();
+            AnalisisTextBox.Text = Tipos.Analisis;
+            PrecioTextBox.Text = Tipos.Precio.ToString();
+            TiposAnalisisFechaTextBox.Text = Tipos.Fecha.ToString("yyyy-MM-dd");
+        }
+        private void LlenaCampo(Analisis Analisis)
+        {
+            ((Analisis)ViewState["Analisis"]).Detalle = Analisis.Detalle;
+            IDTextBox.Text = Analisis.AnalisisId.ToString();
+            FechaTextBox.Text = Analisis.Fecha.ToString("yyyy-MM-dd");
+            // PacienteDropDown.SelectedValue = Analisis.Paciente;
+            MontoTextBox.Text = Analisis.Monto.ToString();
+            BalanceTextBox.Text = Analisis.Balance.ToString();
             this.BindGrid();
         }
-
-        private void LlenaValores()
+        protected void AgregarGrid_Click(object sender, EventArgs e)
         {
-            total = 0;
-            int id = 0;
+            Analisis Analisis = new Analisis();
 
-            //List<AnalisisDetalle> lista = (List<AnalisisDetalle>)ViewState["Detalle"];
+            Analisis = (Analisis)ViewState["Analisis"];
 
-            RepositorioBase<TipoAnalisis> repositorio = new RepositorioBase<TipoAnalisis>();
-            id = Convert.ToInt32(TipoAnalisisDropDownList.SelectedValue);
-            TipoAnalisis tipoAnalisis = repositorio.Buscar(id);
+            Analisis.Detalle.Add(new AnalisisDetalle(
+                Utils.ToInt(TiposAnalisisDropDown.SelectedValue),
+                ResultadoTextBox.Text,
+                Utils.ToDateTime(FechaTextBox.Text)));
 
-            total = tipoAnalisis.Precio;
-            Sumatoria += total;
-            MontoTextBox.Text = Sumatoria.ToString();
-            BalanceTextBox.Text = Sumatoria.ToString();
-        }
-
-        protected void LimpiarButton_Click(object sender, EventArgs e)
-        {
-            Limpiar();
-        }
-
-        protected void AgregarButton_Click1(object sender, EventArgs e)
-        {
-            Analisis analisis = new Analisis();
-            string desc = TipoAnalisisDropDownList.Text;
-
-            analisis = (Analisis)ViewState["Analisis"];
-            analisis.AgregarDetalle(analisis.AnalisisId, ResultadoTextBox.Text, desc);
-
-            ViewState["Analisis"] = analisis;
+            ViewState["Detalle"] = Analisis.Detalle;
 
             this.BindGrid();
-            LlenaValores();
+
+            Grid.Columns[1].Visible = false;
+
+            ResultadoTextBox.Text = string.Empty;
+
+            decimal Total = 0;
+            foreach (var item in Analisis.Detalle.ToList())
+            {
+                TipoAnalisis T = new RepositorioBase<TipoAnalisis>().Buscar(item.TiposId);
+                Total += T.Precio;
+            }
+            BalanceTextBox.Text = Total.ToString();
+            MontoTextBox.Text = Total.ToString();
         }
 
         protected void Grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -130,101 +168,189 @@ namespace pAnalisisMD.Registros
             this.BindGrid();
 
             ResultadoTextBox.Text = string.Empty;
+            decimal Total = 0;
+            foreach (var item in Analisis.Detalle.ToList())
+            {
+                Total += item.Precio;
+            }
+            BalanceTextBox.Text = Total.ToString();
+            MontoTextBox.Text = Total.ToString();
         }
 
-
-        private void LlenarDropDownListAnalisis()
+        protected void Grid_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-          
-            RepositorioBase<TipoAnalisis> repositorio = new RepositorioBase<TipoAnalisis>();
-             RepositorioBase<Pacientes> pacientes = new RepositorioBase<Pacientes>();
+            Grid.DataSource = ViewState["Detalle"];
 
-            var list = new List<TipoAnalisis>();
-            var lista = new List<Pacientes>();
-            list = repositorio.GetList(p => true);
-            lista = pacientes.GetList(p => true);
+            Grid.PageIndex = e.NewPageIndex;
 
-            TipoAnalisisDropDownList.DataSource = list;
-            TipoAnalisisDropDownList.DataTextField = "Descripcion";
-            TipoAnalisisDropDownList.DataBind();
-
-            PacienteDropDownList.DataSource = lista;
-            PacienteDropDownList.DataTextField = "Nombres";
-            PacienteDropDownList.DataBind();
-
+            Grid.DataBind();
         }
-        private bool ExisteEnLaBaseDeDatos()
+
+        protected void TiposGuardarButton_Click(object sender, EventArgs e)
+        {
+            TipoAnalisis Tipo = new TipoAnalisis();
+            RepositorioBase<TipoAnalisis> Repositorio = new RepositorioBase<TipoAnalisis>();
+
+            bool paso = false;
+
+            Tipo = TiposLlenaClase();
+
+            if (Utils.ToInt(TiposIdTextBox.Text) == 0)
+            {
+                paso = Repositorio.Guardar(Tipo);
+                Response.Redirect(Request.RawUrl);
+            }
+            else
+            {
+                if (!TiposExisteEnLaBaseDeDatos())
+                {
+
+                    Utils.ShowToastr(this.Page, "No se pudo Guardar", "Error");
+                    return;
+                }
+                paso = Repositorio.Modificar(Tipo);
+                Response.Redirect(Request.RawUrl);
+            }
+
+            if (paso)
+            {
+                Utils.ShowToastr(this.Page, "Exito Eliminado", "success");
+                return;
+            }
+            else
+                Utils.ShowToastr(this.Page, "No se pudo Guardar", "Error");
+        }
+
+
+        protected void TiposEliminarButton_Click(object sender, EventArgs e)
+        {
+            RepositorioBase<TipoAnalisis> Repositorio = new RepositorioBase<TipoAnalisis>();
+
+            var TipoAnalisis = Repositorio.Buscar(Utils.ToInt(TiposIdTextBox.Text));
+
+            if (TipoAnalisis != null)
+            {
+                if (Repositorio.Eliminar(Utils.ToInt(TiposIdTextBox.Text)))
+                {
+                    Utils.ShowToastr(this.Page, "Exito Eliminado", "success");
+                }
+                else
+                    Utils.ShowToastr(this.Page, "No se pudo Eliminar", "Error");
+            }
+            else
+                Utils.ShowToastr(this.Page, "No se pudo Eliminar", "Error");
+
+            LimpiarTipoAnalisis();
+        }
+
+        protected void TiposBuscarButton_Click(object sender, EventArgs e)
+        {
+            RepositorioBase<TipoAnalisis> Repositorio = new RepositorioBase<TipoAnalisis>();
+
+            TipoAnalisis Tipos = new TipoAnalisis();
+
+            Tipos = Repositorio.Buscar(Utils.ToInt(TiposIdTextBox.Text));
+
+            if (Tipos != null)
+                LlenaCampo(Tipos);
+            else
+            {
+                Utils.ShowToastr(this, "No se pudo Buscar", "Error", "error");
+                LimpiarTipoAnalisis();
+            }
+        }
+
+        protected void TiposNuevoButton_Click(object sender, EventArgs e)
+        {
+            LimpiarTipoAnalisis();
+        }
+
+        protected void AnalisisNuevoButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void AnalisisBuscarButton_Click(object sender, EventArgs e)
         {
             RepositorioBase<Analisis> Repositorio = new RepositorioBase<Analisis>();
-            Analisis Tipos = Repositorio.Buscar(Utils.ToInt(AnalisisIdTextBox.Text));
-            return (Tipos != null);
+
+            Analisis Analisis = new Analisis();
+
+            Analisis = Repositorio.Buscar(Utils.ToInt(IDTextBox.Text));
+
+            if (Analisis != null)
+                LlenaCampo(Analisis);
+            else
+            {
+                Utils.ShowToastr(this, "No se pudo Buscar", "Error", "error");
+                LimpiarTipoAnalisis();
+            }
         }
-        protected void GuardarButton_Click(object sender, EventArgs e)
+
+        protected void AnalisisGuardarButton_Click(object sender, EventArgs e)
         {
             Analisis Analisis = new Analisis();
             RepositorioBase<Analisis> Repositorio = new RepositorioBase<Analisis>();
             bool paso = false;
 
-            Analisis = LlenarClase();
 
-            if (Utils.ToInt(AnalisisIdTextBox.Text) == 0)
+            Analisis = AnalisisLlenaClase();
+
+            if (Utils.ToInt(IDTextBox.Text) == 0)
             {
-                paso = Repositorio.Guardar(Analisis);
-                Limpiar();
+                if (Grid.Rows.Count == 0)
+                {
+                    Utils.ShowToastr(this, "No se pudo guardar", "Error", "error");
+                    return;
+                }
+                else
+                    paso = Repositorio.Guardar(Analisis);
+                LimpiarAnalisis();
             }
             else
             {
-                if (!ExisteEnLaBaseDeDatos())
+                if (!AnalisisExisteEnLaBaseDeDatos())
                 {
 
-                    Utils.ShowToastr(this.Page, "No se pudo guardar!!", "Error", "error");
+                    Utils.ShowToastr(this, "No se pudo guardar", "Error", "error");
                     return;
                 }
                 paso = Repositorio.Modificar(Analisis);
-                Limpiar();
+                LimpiarAnalisis();
             }
 
             if (paso)
             {
-                Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
+                Utils.ShowToastr(this, "Guardado", "Exito", "success");
                 return;
             }
             else
-                Utils.ShowToastr(this.Page, "No se pudo guardar!!", "Error", "error");
 
-            Limpiar();
+                Utils.ShowToastr(this, "No se pudo guardar", "Error", "error");
+
+            LimpiarAnalisis();
         }
 
-        protected void BuscarButton_Click1(object sender, EventArgs e)
-        {
-            RepositorioBase<Analisis> repositorio = new RepositorioBase<Analisis>();
-            Analisis analisis = new Analisis();
-            analisis = repositorio.Buscar(Utils.ToInt(AnalisisIdTextBox.Text));
-
-            if (analisis != null)
-                LlenarCampos(analisis);
-            
-            else
-            {
-                Utils.ShowToastr(this.Page, "El analisis que intenta buscar no existe", "Error", "error");
-                Limpiar();
-            }
-        }
-
-        protected void EliminarButton_Click(object sender, EventArgs e)
+        protected void AnalisisEliminarButton_Click(object sender, EventArgs e)
         {
             RepositorioBase<Analisis> Repositorio = new RepositorioBase<Analisis>();
 
-            var Analisis = Repositorio.Buscar(Utils.ToInt(AnalisisIdTextBox.Text));
+            var Analisis = Repositorio.Buscar(Utils.ToInt(IDTextBox.Text));
 
             if (Analisis != null)
             {
-                Repositorio.Eliminar(Utils.ToInt(AnalisisIdTextBox.Text));
-                Utils.ShowToastr(this.Page, "Eliminado con exito!!", "Error", "success");
+                if (Repositorio.Eliminar(Utils.ToInt(IDTextBox.Text)))
+                {
+                    Utils.ShowToastr(this.Page, "Exito Eliminado", "success");
+                }
+                else
+                    Utils.ShowToastr(this.Page, "No se pudo Eliminar", "Error");
             }
             else
-                Utils.ShowToastr(this.Page, "No se pudo eliminar!!", "Error", "error");
-            Limpiar();
+                Utils.ShowToastr(this.Page, "No se pudo Eliminar", "Error");
+
+            LimpiarTipoAnalisis();
         }
+
     }
 }

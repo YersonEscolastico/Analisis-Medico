@@ -14,152 +14,226 @@ namespace pAnalisisMD.Registros
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            FechaTextBox.Text = DateTime.Now.ToString("yyyy-MM-dd");
             if (!Page.IsPostBack)
             {
+                ValoresDeDropdowns();
+                ValoresDePaciente();
                 ViewState["Pagos"] = new Pagos();
-                Llenar();
                 BindGrid();
             }
         }
-        public void Limpiar()
-        {
-            AnalisisDropdownList.SelectedIndex = -1;
-            BalanceTextBox.Text = string.Empty;
-            Llenar();
-            this.BindGrid();
-        }
-        private void Llenar()
-        {
-            AnalisisDropdownList.Items.Clear();
-            RepositorioAnalisis repositorio = new RepositorioAnalisis();
-            List<Analisis> lista = RepositorioAnalisis.GetList(x => x.Balance == 0);
-            AnalisisDropdownList.DataSource = lista;
-            AnalisisDropdownList.DataValueField = "AnalisisId";
-            AnalisisDropdownList.DataBind();
 
+        private void ValoresDeDropdowns()
+        {
+
+            RepositorioBase<Analisis> repositorio = new RepositorioBase<Analisis>();
+            var list = new List<Analisis>();
+            list = repositorio.GetList(p => true);
+            AnalisisDropDown.DataSource = list;
+            AnalisisDropDown.DataValueField = "AnalisisId";
+            AnalisisDropDown.DataTextField = "AnalisisId";
+            AnalisisDropDown.DataBind();
         }
-        private void BindGrid()
+
+        private void ValoresDePaciente()
+        {
+
+            RepositorioBase<Pacientes> repositorio = new RepositorioBase<Pacientes>();
+            var list = new List<Pacientes>();
+            list = repositorio.GetList(p => true);
+            PacienteDropDownList.DataSource = list;
+            PacienteDropDownList.DataValueField = "PacienteId";
+            PacienteDropDownList.DataTextField = "PacienteId";
+            PacienteDropDownList.DataBind();
+        }
+
+
+
+        protected void BindGrid()
         {
             if (ViewState["Pagos"] != null)
             {
-                DetalleGridView.DataSource = ((Pagos)ViewState["Pagos"]).Detalle;
-                DetalleGridView.DataBind();
-            }
-        }
-        protected void NuevoButton_Click(object sender, EventArgs e)
-        {
-            Limpiar();
-        }
-  
-        private void LlenarCampos(Pagos pagos)
-        {
-            PagoIdTextBox.Text = pagos.PagoId.ToString();
-            ViewState["Pagos"] = new Pagos();
-            this.BindGrid();
-        }
-
-        private Pagos LlenaClase()
-        {
-            Pagos pagos = new Pagos();
-            pagos.PagoId = PagoIdTextBox.Text.ToInt();
-            FechaTextBox.Text = DateTime.Now.ToString("yyyy-MM-dd");
-            return pagos;
-        }
-
-
-        protected void AnalisisDropdownList_TextChanged(object sender, EventArgs e)
-        {
-            int id = Convert.ToInt32( AnalisisDropdownList.Text);
-            if (AnalisisDropdownList.Items.Count > 0)
-            {
-                int AnalisisID = AnalisisDropdownList.SelectedValue.ToInt();
-                RepositorioAnalisis repositorio = new RepositorioAnalisis();
-                Analisis analisis = BLL.RepositorioAnalisis.Buscar(id);
-                BalanceTextBox.Text = analisis.Balance.ToString();
+                Grid.DataSource = ((Pagos)ViewState["Pagos"]).Detalle;
+                Grid.DataBind();
             }
         }
         private bool ExisteEnLaBaseDeDatos()
         {
-            RepositorioPago repositorio = new RepositorioPago();
-            Pagos pagos = BLL.RepositorioPago.Buscar(PagoIdTextBox.Text.ToInt());
-            return pagos != null;
+            RepositorioBase<Pagos> Repositorio = new RepositorioBase<Pagos>();
+            Pagos P = Repositorio.Buscar(Utils.ToInt(IDTextBox.Text));
+            return (P != null);
         }
-        protected void DetalleGridView_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        private Pagos LlenaClase()
         {
-            Pagos Pago = new Pagos();
-            DetalleGridView.DataSource = Pago.Detalle;
-            DetalleGridView.PageIndex = e.NewPageIndex;
-            DetalleGridView.DataBind();
+            Pagos P = new Pagos();
+
+            P = (Pagos)ViewState["Pagos"];
+            P.PagosId = Utils.ToInt(IDTextBox.Text);
+            P.AnalisisId = Utils.ToInt(AnalisisDropDown.SelectedValue);
+            P.Pagado = Utils.ToDecimal(PagadoTextBox.Text);
+            P.FechaRegistro = DateTime.Now;
+            P.PacienteId = Utils.ToInt(PacienteDropDownList.SelectedValue);
+
+            return P;
         }
-
-        protected void AgregarButton_Click(object sender, EventArgs e)
+        private void LlenaCampo(Pagos P)
         {
-            if (MontoTextBox.Text.ToDecimal() <= 0)
-                return;
-            Pagos pago = new Pagos();
-            pago.AgregarDetalle(pago.PagoId, AnalisisDropdownList.SelectedValue.ToInt(), Convert.ToDecimal(MontoTextBox.Text));
-
-            ViewState["Pagos"] = pago;
+            ((Pagos)ViewState["Pagos"]).Detalle = P.Detalle;
+            IDTextBox.Text = P.PagosId.ToString();
+            AnalisisDropDown.SelectedValue = P.AnalisisId.ToString();
+            PagadoTextBox.Text = P.Pagado.ToString();
+            PacienteDropDownList.SelectedValue = P.PacienteId.ToString();
             this.BindGrid();
-            MontoTextBox.Text = string.Empty;
+        }
+
+        protected void Grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            Pagos P = new Pagos();
+
+            P = (Pagos)ViewState["Pagos"];
+
+            ViewState["Detalle"] = P.Detalle;
+
+            int Fila = e.RowIndex;
+
+            P.Detalle.RemoveAt(Fila);
+
+            this.BindGrid();
+
+            MontoPagadoTextBox.Text = string.Empty;
+            decimal Total = 0;
+            foreach (var item in P.Detalle.ToList())
+            {
+                Total += item.MontoPagado;
+            }
+            PagadoTextBox.Text = Total.ToString();
+        }
+
+        protected void Grid_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            Grid.DataSource = ViewState["Detalle"];
+
+            Grid.PageIndex = e.NewPageIndex;
+
+            Grid.DataBind();
+        }
+
+        protected void AgregarGrid_Click(object sender, EventArgs e)
+        {
+            Pagos P = new Pagos();
+            P = (Pagos)ViewState["Pagos"];
+            Analisis A = new RepositorioBase<Analisis>().Buscar(Utils.ToInt(AnalisisDropDown.SelectedValue));
+
+            int id = Utils.ToInt(AnalisisDropDown.SelectedValue);
+
+            foreach (var item in P.Detalle.ToList())
+            {
+                if (id == item.AnalisisId)
+                {
+
+                    Utils.ShowToastr(this, "Ya esta agregado", "Error", "error");
+                    return;
+                }
+            }
+
+            P.Detalle.Add(new PagosDetalle(
+                Utils.ToInt(PacienteDropDownList.SelectedValue), Utils.ToInt(AnalisisDropDown.SelectedValue),
+                A.Balance,
+                Utils.ToDecimal(MontoPagadoTextBox.Text)
+                ));
+
+            ViewState["Detalle"] = P.Detalle;
+
+            this.BindGrid();
+
+            Grid.Columns[1].Visible = false;
+
+            MontoPagadoTextBox.Text = string.Empty;
+
+            decimal Total = 0;
+            foreach (var item in P.Detalle.ToList())
+            {
+                Total += item.MontoPagado;
+            }
+            PagadoTextBox.Text = Total.ToString();
+        }
+
+        protected void NuevoButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(Request.RawUrl);
         }
 
         protected void GuardarButton_Click(object sender, EventArgs e)
         {
+            Pagos P = new Pagos();
             bool paso = false;
-            RepositorioPago repositorio = new RepositorioPago();
-            Pagos pagos = LlenaClase();
 
-            if (pagos.PagoId == 0)
-                paso = RepositorioPago.Guardar(pagos);
+
+            P = LlenaClase();
+
+            if (Utils.ToInt(IDTextBox.Text) == 0)
+            {
+                paso = RepositorioPago.Guardar(P);
+                Response.Redirect(Request.RawUrl);
+            }
             else
             {
-                if (ExisteEnLaBaseDeDatos())
+                if (!ExisteEnLaBaseDeDatos())
                 {
-                    Utils.ShowToastr(this.Page, "No se pudo guardar!!", "Error", "error");
+
+                    Utils.ShowToastr(this, "No se pudo guardar", "Error", "error");
                     return;
                 }
-                paso = RepositorioPago.Modificar(pagos);
+                paso = RepositorioPago.Modificar(P);
+                Response.Redirect(Request.RawUrl);
             }
+
             if (paso)
             {
-                Limpiar();
-                Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
+
+                Utils.ShowToastr(this, "Guardado", "Exito", "success");
+                return;
             }
+            else
+                Utils.ShowToastr(this, "No se pudo guardar", "Error", "error");
+        }
+
+        protected void EliminarButton_Click(object sender, EventArgs e)
+        {
+            RepositorioBase<Pagos> Repositorio = new RepositorioBase<Pagos>();
+
+            var P = Repositorio.Buscar(Utils.ToInt(IDTextBox.Text));
+
+            if (P != null)
+            {
+                if (RepositorioPago.Eliminar(Utils.ToInt(IDTextBox.Text)))
+                {
+                    Utils.ShowToastr(this.Page, "Exito Eliminado", "success");
+                    Response.Redirect(Request.RawUrl);
+                }
+                else
+                    Utils.ShowToastr(this.Page, "No se pudo Eliminar", "Error");
+            }
+            else
+                Utils.ShowToastr(this.Page, "No se pudo Eliminar", "Error");
+
         }
 
         protected void BuscarButton_Click(object sender, EventArgs e)
         {
-            RepositorioPago repositorio = new RepositorioPago();
-            Pagos pagos = RepositorioPago.Buscar(PagoIdTextBox.Text.ToInt());
-            if (pagos != null)
-            {
-                Limpiar();
-                LlenarCampos(pagos);
-            }
-            else
-                Utils.ShowToastr(this.Page, "El analisis que intenta buscar no existe", "Error", "error");
-        }
-        protected void EliminarButton_Click1(object sender, EventArgs e)
-        {
-            RepositorioPago repositorio = new RepositorioPago();
-            int id = PagoIdTextBox.Text.ToInt();
-            if (ExisteEnLaBaseDeDatos())
-            {
-                Utils.ShowToastr(this.Page, "No se pudo eliminar", "Error", "error");
-                return;
-            }
-            else
-            {
-                if (RepositorioPago.Eliminar(id))
-                {
-                    Utils.ShowToastr(this.Page, "Eliminado con exito!!", "Error", "success");
-                    Limpiar();
-                }
-            }
+            RepositorioBase<Pagos> Repositorio = new RepositorioBase<Pagos>();
 
+            Pagos P = new Pagos();
+
+            P = Repositorio.Buscar(Utils.ToInt(IDTextBox.Text));
+
+            if (P != null)
+                LlenaCampo(P);
+            else
+            {
+                Utils.ShowToastr(this.Page, "Id no exite", "Error", "error");
+
+            }
         }
     }
 }

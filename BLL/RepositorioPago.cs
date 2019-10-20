@@ -15,6 +15,7 @@ namespace BLL
     {
         public static bool Guardar(Pagos pago)
         {
+
             bool paso = false;
 
             Contexto contexto = new Contexto();
@@ -22,9 +23,14 @@ namespace BLL
             {
                 if (contexto.Pagos.Add(pago) != null)
                 {
-                    contexto.Analisis.Find(pago.AnalisisId).Balance -= pago.MontoPago;
+                    foreach (var item in pago.Detalle)
+                    {
+                        contexto.Analisis.Find(item.AnalisisId).Balance -= (decimal)item.MontoPagado;
+                    }
 
-                    contexto.SaveChanges();
+                    //contexto.Analisis.Find(pago.AnalisisId).Balance -= (decimal)pago.Pagado;
+
+                    contexto.SaveChanges(); 
                     paso = true;
                 }
                 contexto.Dispose();
@@ -35,24 +41,23 @@ namespace BLL
             }
             return paso;
         }
-
-
         public static bool Modificar(Pagos pago)
         {
             bool paso = false;
 
             Contexto contexto = new Contexto();
-
+            RepositorioBase<Pagos> r = new RepositorioBase<Pagos>();
+            RepositorioBase<Analisis> a = new RepositorioBase<Analisis>();
             try
             {
-                Pagos PagoAnt = RepositorioPago.Buscar(pago.PagoId);
+                Pagos PagoAnt = r.Buscar(pago.PagosId);
 
 
-                decimal modificado = pago.MontoPago - PagoAnt.MontoPago;
+                decimal modificado = pago.Pagado - PagoAnt.Pagado;
 
                 var Analisis = contexto.Analisis.Find(pago.AnalisisId);
                 Analisis.Balance += modificado;
-                RepositorioAnalisis.Modificar(Analisis);
+                a.Modificar(Analisis);
 
                 contexto.Entry(pago).State = EntityState.Modified;
                 if (contexto.SaveChanges() > 0)
@@ -67,8 +72,6 @@ namespace BLL
             }
             return paso;
         }
-
-
         public static bool Eliminar(int id)
         {
             bool paso = false;
@@ -78,7 +81,7 @@ namespace BLL
             {
                 Pagos pago = contexto.Pagos.Find(id);
 
-                contexto.Analisis.Find(pago.AnalisisId).Balance += pago.MontoPago;
+                contexto.Analisis.Find(pago.AnalisisId).Balance += pago.Pagado;
 
                 contexto.Pagos.Remove(pago);
 
@@ -94,46 +97,6 @@ namespace BLL
             }
             return paso;
         }
-
-
-        public static Pagos Buscar(int id)
-        {
-            Contexto contexto = new Contexto();
-            Pagos pago = new Pagos();
-
-            try
-            {
-                pago = contexto.Pagos.Find(id);
-                contexto.Dispose();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return pago;
-        }
-
-
-        public static List<Pagos> GetList(Expression<Func<Pagos, bool>> expression)
-        {
-            List<Pagos> pagos = new List<Pagos>();
-            Contexto contexto = new Contexto();
-
-            try
-            {
-                pagos = contexto.Pagos.Where(expression).ToList();
-                contexto.Dispose();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return pagos;
-        }
-
-
-
 
     }
 }

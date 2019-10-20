@@ -12,15 +12,10 @@ namespace Entidades
         [Key]
         public int PacienteId { get; set; }
         public string Nombres { get; set; }
-        public string Direccion { get; set; }
-        public string Telefono { get; set; }
-
         public Pacientes()
         {
             PacienteId = 0;
             Nombres = string.Empty;
-            Direccion = string.Empty;
-            Telefono = string.Empty;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,26 +12,25 @@ namespace Entidades
     public class PagosDetalle
     {
         [Key]
-        public int DetalleId { get; set; }
-        public int PagoId { get; set; }
+        public int PagosDetalleId { get; set; }
         public int AnalisisId { get; set; }
-        public decimal MontoPago { get; set; }
-
-        public DateTime FechaRegistro { get; set; }
+        public int PacienteId { get; set; }
+        public decimal MontoAnalisis { get; set; }
+        public decimal MontoPagado { get; set; }
         public PagosDetalle()
         {
-            DetalleId = 0;
-            PagoId = 0;
+            PagosDetalleId = 0;
             AnalisisId = 0;
-            MontoPago = 0;
-            FechaRegistro = DateTime.Now;
+            PacienteId = 0;
+            MontoAnalisis = 0;
+            MontoPagado = 0;
         }
-        public PagosDetalle( int analisisId, int pagoId, decimal montopago)
+        public PagosDetalle(int Pacienteid, int analisisid, decimal montoanalisis, decimal montopagado)
         {
-            AnalisisId = analisisId;
-            PagoId = pagoId;
-            MontoPago = montopago;
-            FechaRegistro = DateTime.Now;
+            AnalisisId = analisisid;
+            MontoAnalisis = montoanalisis;
+            MontoPagado = montopagado;
+            PacienteId = Pacienteid;
         }
     }
 }

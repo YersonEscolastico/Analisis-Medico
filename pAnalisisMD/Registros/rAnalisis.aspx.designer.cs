@@ -13,40 +13,22 @@ namespace pAnalisisMD.Registros {
     public partial class rAnalisis {
         
         /// <summary>
-        /// AnalisisIdLabel control.
+        /// IDTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label AnalisisIdLabel;
+        protected global::System.Web.UI.WebControls.TextBox IDTextBox;
         
         /// <summary>
-        /// AnalisisIdTextBox control.
+        /// AnalisisBuscarButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox AnalisisIdTextBox;
-        
-        /// <summary>
-        /// RFVId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVId;
-        
-        /// <summary>
-        /// BuscarButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BuscarButton;
+        protected global::System.Web.UI.WebControls.LinkButton AnalisisBuscarButton;
         
         /// <summary>
         /// FechaTextBox control.
@@ -58,40 +40,40 @@ namespace pAnalisisMD.Registros {
         protected global::System.Web.UI.WebControls.TextBox FechaTextBox;
         
         /// <summary>
-        /// PacienteDropDownList control.
+        /// RFVFecha control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList PacienteDropDownList;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVFecha;
         
         /// <summary>
-        /// TipoAnalisisDropDownList control.
+        /// PacienteDropDown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList TipoAnalisisDropDownList;
+        protected global::System.Web.UI.WebControls.DropDownList PacienteDropDown;
         
         /// <summary>
-        /// RequiredFieldValidator3 control.
+        /// TiposAnalisisDropDown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
+        protected global::System.Web.UI.WebControls.DropDownList TiposAnalisisDropDown;
         
         /// <summary>
-        /// Label4 control.
+        /// TiposModal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4;
+        protected global::System.Web.UI.WebControls.LinkButton TiposModal;
         
         /// <summary>
         /// ResultadoTextBox control.
@@ -103,40 +85,31 @@ namespace pAnalisisMD.Registros {
         protected global::System.Web.UI.WebControls.TextBox ResultadoTextBox;
         
         /// <summary>
-        /// AgregarButton control.
+        /// RFVResultado control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button AgregarButton;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVResultado;
         
         /// <summary>
-        /// Balance control.
+        /// AgregarGrid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Balance;
+        protected global::System.Web.UI.WebControls.LinkButton AgregarGrid;
         
         /// <summary>
-        /// BalanceTextBox control.
+        /// Grid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox BalanceTextBox;
-        
-        /// <summary>
-        /// Monto control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Monto;
+        protected global::System.Web.UI.WebControls.GridView Grid;
         
         /// <summary>
         /// MontoTextBox control.
@@ -148,39 +121,147 @@ namespace pAnalisisMD.Registros {
         protected global::System.Web.UI.WebControls.TextBox MontoTextBox;
         
         /// <summary>
-        /// DetalleGridView control.
+        /// BalanceTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView DetalleGridView;
+        protected global::System.Web.UI.WebControls.TextBox BalanceTextBox;
         
         /// <summary>
-        /// NuevoButton control.
+        /// TiposIdTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button NuevoButton;
+        protected global::System.Web.UI.WebControls.TextBox TiposIdTextBox;
         
         /// <summary>
-        /// GuardarButton control.
+        /// TiposBuscarButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button GuardarButton;
+        protected global::System.Web.UI.WebControls.LinkButton TiposBuscarButton;
         
         /// <summary>
-        /// EliminarButton control.
+        /// AnalisisTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button EliminarButton;
+        protected global::System.Web.UI.WebControls.TextBox AnalisisTextBox;
+        
+        /// <summary>
+        /// RFVAnalisis control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVAnalisis;
+        
+        /// <summary>
+        /// PrecioTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox PrecioTextBox;
+        
+        /// <summary>
+        /// RFVPrecio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVPrecio;
+        
+        /// <summary>
+        /// TiposAnalisisFechaTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TiposAnalisisFechaTextBox;
+        
+        /// <summary>
+        /// RFV control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV;
+        
+        /// <summary>
+        /// TiposNuevoButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button TiposNuevoButton;
+        
+        /// <summary>
+        /// TiposGuardarButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button TiposGuardarButton;
+        
+        /// <summary>
+        /// TiposEliminarButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button TiposEliminarButton;
+        
+        /// <summary>
+        /// Mensaje control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Mensaje;
+        
+        /// <summary>
+        /// AnalisisNuevoButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AnalisisNuevoButton;
+        
+        /// <summary>
+        /// AnalisisGuardarButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AnalisisGuardarButton;
+        
+        /// <summary>
+        /// AnalisisEliminarButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AnalisisEliminarButton;
     }
 }

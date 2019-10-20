@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,30 +12,24 @@ namespace Entidades
     public class AnalisisDetalle
     {
         [Key]
-        public int DetalleId { get; set; }
-        public int AnalisisId { get; set; }
+        public int AnalisisDetalleId { get; set; }
         public string Resultado { get; set; }
-        public string Analisis { get; set; }
-        public int TipoId { get; set; }
-        public string Descripcion { get; set; }
-
-        public virtual TipoAnalisis TipoAnalisis { get; set; }
+        public int TiposId { get; set; }
+        public decimal Precio { get; set; }
+        public DateTime Fecha { get; set; }
         public AnalisisDetalle()
         {
-            DetalleId = 0;
-            AnalisisId = 0;
-            Analisis = string.Empty;
+            AnalisisDetalleId = 0;
+            TiposId = 0;
             Resultado = string.Empty;
-            TipoId = 0;
-            Descripcion = string.Empty;
-
-
+            Precio = 0;
+            Fecha = DateTime.Now;
         }
-        public AnalisisDetalle(int analisisId, string resultado, string descripcion)
+        public AnalisisDetalle(int analisis, string resultado, DateTime date)
         {
-            AnalisisId = analisisId;
+            TiposId = analisis;
             Resultado = resultado;
-            Descripcion = descripcion;
+            Fecha = date;
         }
     }
 }

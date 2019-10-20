@@ -13,139 +13,85 @@ namespace pAnalisisMD.Registros {
     public partial class rPagos {
         
         /// <summary>
-        /// PagoIdLabel control.
+        /// IDTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label PagoIdLabel;
+        protected global::System.Web.UI.WebControls.TextBox IDTextBox;
         
         /// <summary>
-        /// PagoIdTextBox control.
+        /// PagosBuscarButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox PagoIdTextBox;
+        protected global::System.Web.UI.WebControls.LinkButton PagosBuscarButton;
         
         /// <summary>
-        /// RequiredFieldValidator1 control.
+        /// AnalisisDropDown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        protected global::System.Web.UI.WebControls.DropDownList AnalisisDropDown;
         
         /// <summary>
-        /// BuscarButton control.
+        /// PacienteDropDownList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BuscarButton;
+        protected global::System.Web.UI.WebControls.DropDownList PacienteDropDownList;
         
         /// <summary>
-        /// FechaTextBox control.
+        /// MontoPagadoTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox FechaTextBox;
+        protected global::System.Web.UI.WebControls.TextBox MontoPagadoTextBox;
         
         /// <summary>
-        /// RFVFFecha control.
+        /// AgregarGrid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVFFecha;
+        protected global::System.Web.UI.WebControls.LinkButton AgregarGrid;
         
         /// <summary>
-        /// AnalisisIdLabel control.
+        /// PagadoTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label AnalisisIdLabel;
+        protected global::System.Web.UI.WebControls.TextBox PagadoTextBox;
         
         /// <summary>
-        /// AnalisisDropdownList control.
+        /// Grid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList AnalisisDropdownList;
+        protected global::System.Web.UI.WebControls.GridView Grid;
         
         /// <summary>
-        /// RFVId control.
+        /// Mensaje control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVId;
-        
-        /// <summary>
-        /// Balance control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Balance;
-        
-        /// <summary>
-        /// BalanceTextBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox BalanceTextBox;
-        
-        /// <summary>
-        /// Monto control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Monto;
-        
-        /// <summary>
-        /// MontoTextBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox MontoTextBox;
-        
-        /// <summary>
-        /// AgregarButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button AgregarButton;
-        
-        /// <summary>
-        /// DetalleGridView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView DetalleGridView;
+        protected global::System.Web.UI.WebControls.Label Mensaje;
         
         /// <summary>
         /// NuevoButton control.

@@ -1,113 +1,88 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="rPagos.aspx.cs" Inherits="pAnalisisMD.Registros.rPagos" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
-    
-    <div class="card">
-           <div class="panel" style="background-color: #0094ff">
-        <div class="panel-heading" style="font-family: Arial Black; font-size: 20px; text-align:center; color: Black">Registro de pagos</div>
-    </div>
+       <div class="panel panel-primary">
         <div class="panel-body">
-            <div class="card-body">
-                <div class="container">
+              <div class="form-horizontal col-md-14" role="form">
 
-                    <div class="form-group-row">
 
-                        <%--PagoId--%>
-                        <div class="col-md-2 col-md-offset-3">
-                            <asp:Label ID="PagoIdLabel" Text="PagoId" runat="server" />
-                            <asp:TextBox ID="PagoIdTextBox" class="form-control input-sm" TextMode="Number" runat="server" placeholder="0"></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Buscar" ControlToValidate="PagoIdTextBox" runat="server" ErrorMessage="*" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                        </div>
-
-                        <%--Buscar Button--%>
-                        <div class="col-md-2 col-sm-2 col-xs-2">
-                            <div class="input-group-append">
-                                <br />
-                                <asp:Button Text="Buscar" class="btn btn-primary" runat="server" ID="BuscarButton" OnClick="BuscarButton_Click" />
-                            </div>
-                        </div>
-
-                        <%--Fecha--%>
-                        <div class="col-md-2 col-sm-1 col-xs-3">
-                            <asp:Label Text="Fecha" runat="server" />
-                            <asp:TextBox ID="FechaTextBox" class="form-control input-sm" TextMode="Date" runat="server"></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="RFVFFecha" ValidationGroup="Guardar" ControlToValidate="FechaTextBox" runat="server" ErrorMessage="*" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                            <br />
-                            <br />
-                        </div>
-
-                        <%--AnalisisId--%>
-                        <div class="col-md-2 col-md-offset-3">
-                            <asp:Label ID="AnalisisIdLabel" Text="AnalisisId" runat="server" />
-                            <asp:DropDownList ID="AnalisisDropdownList" class="form-control input-sm" TextMode="Number" runat="server" placeholder="0"></asp:DropDownList>
-                            <asp:RequiredFieldValidator ID="RFVId" ValidationGroup="Buscar" ControlToValidate="AnalisisDropdownList" runat="server" ErrorMessage="*" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                        </div>
-
+                <div class="form-group row">
+                    <label for="ID" class="col-sm-1 col-form-label">ID</label>
+                    <div class="col-md-1 col-sm-2 col-xs-2">
+                        <asp:TextBox type="number" ID="IDTextBox" runat="server" min=0 class="form-control input-sm"></asp:TextBox>
+                    </div>
+                    <div class="col-md-3 col-sm-2 col-xs-4">
+                    <asp:LinkButton ID="PagosBuscarButton" Class="btn btn-primary" CausesValidation="false" runat="server" Text="Buscar" OnClick="BuscarButton_Click"></asp:LinkButton>
+                    </div>    
+                    
+                </div>
+                   <%--DETALLE--%>
+                  <div class="form-group row">
+                    <label for="Id" class="col-sm-1 col-form-label">AnalisisId</label>
                         
-                             <%--Balance--%>
-                        <div class="col-md-3 col-md-offset-2">
-                            <asp:Label ID="Balance" runat="server" Text="Balance">Balance</asp:Label><br />
-                            <asp:TextBox ID="BalanceTextBox" ReadOnly="true" runat="server" class="form-control input-sm"></asp:TextBox>
-                        </div>
-
-
-                        <!--Monto-->
-                        <div class="col-md-2 col-md-offset-5">
-                            <br />
-                            <asp:Label ID="Monto" runat="server" Text="Monto">Monto a pagar:</asp:Label><br />
-                            <asp:TextBox ID="MontoTextBox" class="form-control input-sm" TextMode="Number" MaxLength="9" runat="server" placeholder="0"></asp:TextBox>
-                        </div>
+                    <div class="col-md-2">
+                        <asp:DropDownList runat="server" ID="AnalisisDropDown" CssClass="form-control input-sm" AutoPostBack="true"></asp:DropDownList>
                     </div>
 
-
-                    <%--Agregar Button--%>
-                    <div class="col-md-2 col-sm-2 col-xs-2">
-                        <div class="input-group-append">
-                            <br />
-                            <br />
-                            <asp:Button Text="Agregar" class="btn btn-primary" runat="server" ID="AgregarButton" OnClick="AgregarButton_Click" />
-                        </div>
-                        <br />
-                        <br />
+                       <label for="Id" class="col-sm-1 col-form-label">PacienteId</label>
+                        <div class="col-md-2">
+                        <asp:DropDownList runat="server" ID="PacienteDropDownList" CssClass="form-control input-sm" AutoPostBack="true"></asp:DropDownList>
                     </div>
-                </div>
-                </div>
 
-              <asp:GridView ID="DetalleGridView" class="col-md-3 col-md-offset-3" runat="server" DataKeyNames="DetalleId" AllowPaging="true" PageSize="10" ShowHeaderWhenEmpty="false" AutoGenerateDeleteButton="true" CellPadding="4" ForeColor="#333333"  GridLines="None" Width="767px" AutoGenerateColumns="false"   >
+                      <br />
+                      <br />
+                      <br />
+                       <label for="MontoPagado" class="col-sm-1 col-form-label">Monto  a Pagar</label>
+                      <div class="col-md-2">
+                        <asp:TextBox ID="MontoPagadoTextBox" runat="server" Class="form-control input-sm"></asp:TextBox>
+                      </div>
+                      <div class="col-xs-2">
+                        <asp:LinkButton runat="server" ID="AgregarGrid" ValidationGroup="Analisis"  Class="btn btn-primary" Text="Agregar" OnClick="AgregarGrid_Click"></asp:LinkButton>
+                    </div>
+                      <br />
+                </div>
+                                      <label for="Pagado" class="col-sm-1 col-form-label">Pagado</label>
+                              <div class="col-sm-4">
+                        <asp:TextBox runat="server" ID="PagadoTextBox" CssClass="form-control input-sm" ReadOnly="true"></asp:TextBox>
+                    </div>
+               </div>
+            <br />   <br />
+                   <%--GRID--%>
+                <asp:GridView ID="Grid" CssClass=" col-md-offset-4 col-sm-offset-4" runat="server" DataKeyNames="PagosDetalleId" AllowPaging="true" PageSize="10" ShowHeaderWhenEmpty="false" AutoGenerateDeleteButton="true" CellPadding="4" ForeColor="#333333" GridLines="None" Width="767px" AutoGenerateColumns="false" OnPageIndexChanging="Grid_PageIndexChanging" OnRowDeleting="Grid_RowDeleting" >                         
                     <Columns>
-                        <asp:BoundField DataField="PagoId" HeaderText="PagoId" />
-                        <asp:BoundField />
-                        <asp:BoundField DataField="MontoPago" HeaderText="MontoPago" />
-                        <asp:BoundField />
-                    </Columns>
+                        <asp:BoundField DataField="AnalisisId" HeaderText="AnalisisId" /><asp:BoundField />
+                        <asp:BoundField DataField="MontoAnalisis" HeaderText="BalancePagar" /><asp:BoundField />
+                        <asp:BoundField DataField="MontoPagado" HeaderText="MontoPagado" /><asp:BoundField />
 
-                    <EmptyDataTemplate>
-                        <div style="text-align: center">Se han eliminado todas las filas</div>
-                    </EmptyDataTemplate>
-                    <AlternatingRowStyle BackColor="White" />
+                    </Columns>     
+                         <AlternatingRowStyle BackColor="White" />
 
-                    <EditRowStyle BackColor="#2461BF" />
-                    <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                    <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                    <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-                    <RowStyle BackColor="#EFF3FB" />
-                    <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                    <SortedAscendingCellStyle BackColor="#F5F7FB" />
-                    <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-                    <SortedDescendingCellStyle BackColor="#E9EBEF" />
-                    <SortedDescendingHeaderStyle BackColor="#4870BE" />
-
+                            <EditRowStyle BackColor="#2461BF" />
+                            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                            <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+                            <RowStyle BackColor="#EFF3FB" />
+                            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                            <SortedAscendingCellStyle BackColor="#F5F7FB" />
+                            <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+                            <SortedDescendingCellStyle BackColor="#E9EBEF" />
+                            <SortedDescendingHeaderStyle BackColor="#4870BE" />
                 </asp:GridView>
-                <div class="panel">
-                    <div class="text-center">
-                        <div class="form-group">
-                            <asp:Button ID="NuevoButton" runat="server" Text="Nuevo" class="btn btn-primary" />
-                            <asp:Button ID="GuardarButton" runat="server" Text="Guardar" class="btn btn-success" ValidationGroup="Guardar" OnClick="GuardarButton_Click" />
-                            <asp:Button ID="EliminarButton" runat="server" Text="Eliminar" class="btn btn-danger" OnClick="EliminarButton_Click1" />
-                        </div>
-                    </div>
+            
+        </div>
+             <asp:Label ID="Mensaje" runat="server" CssClass="col-form-label-lg" Text=""></asp:Label>
+   
+           <br />
+           <div class="panel-footer">
+            <div class="text-center">
+                <div class="form-group" style="display: inline-block">
+
+                    <asp:Button Text="Nuevo" class="btn btn-primary" CausesValidation="false" style="color:#fff" runat="server" ID="NuevoButton" OnClick="NuevoButton_Click"  />
+                    <asp:Button Text="Guardar" class="btn btn-success" runat="server" ID="GuardarButton" OnClick="GuardarButton_Click"/>
+                    <asp:Button Text="Eliminar" class="btn btn-danger" CausesValidation="false" runat="server" ID="EliminarButton" OnClick="EliminarButton_Click" />
+
                 </div>
- 
+            </div>
+
         </div>
     </div>
 </asp:Content>

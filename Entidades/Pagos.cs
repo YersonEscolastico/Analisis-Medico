@@ -11,24 +11,21 @@ namespace Entidades
     public class Pagos
     {
         [Key]
-        public int PagoId { get; set; }
+        public int PagosId { get; set; }
         public int AnalisisId { get; set; }
-        public decimal MontoPago { get; set; }
+        public int PacienteId { get; set; }
+        public decimal Pagado { get; set; }
         public DateTime FechaRegistro { get; set; }
-
         public virtual List<PagosDetalle> Detalle { get; set; }
+
         public Pagos()
         {
-            PagoId = 0;
+            PagosId = 0;
+            PacienteId = 0;
             AnalisisId = 0;
-            MontoPago = 0;
+            Pagado = 0;
             FechaRegistro = DateTime.Now;
             Detalle = new List<PagosDetalle>();
-        }
-
-        public void AgregarDetalle(int analisisId, int pagoId, decimal montopago)
-        {
-            this.Detalle.Add(new PagosDetalle(analisisId, pagoId, montopago));
         }
     }
 }
