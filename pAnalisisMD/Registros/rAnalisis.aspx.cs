@@ -342,7 +342,10 @@ namespace pAnalisisMD.Registros
                 if (Repositorio.Eliminar(Utils.ToInt(IDTextBox.Text)))
                 {
                     Utils.ShowToastr(this.Page, "Exito Eliminado", "success");
+                    Response.Redirect(Request.RawUrl);
                 }
+               
+
                 else
                     Utils.ShowToastr(this.Page, "No se pudo Eliminar", "Error");
             }

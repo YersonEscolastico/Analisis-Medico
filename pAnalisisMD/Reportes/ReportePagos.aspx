@@ -1,4 +1,4 @@
-﻿
+﻿<%--  --%>
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ReportePagos.aspx.cs" Inherits="pAnalisisMD.Reportes.ReportePagos" %>
 
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>

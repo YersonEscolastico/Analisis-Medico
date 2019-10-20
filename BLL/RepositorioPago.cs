@@ -28,7 +28,7 @@ namespace BLL
                         contexto.Analisis.Find(item.AnalisisId).Balance -= (decimal)item.MontoPagado;
                     }
 
-                    contexto.SaveChanges(); 
+                    contexto.SaveChanges();
                     paso = true;
                 }
                 contexto.Dispose();
@@ -95,6 +95,5 @@ namespace BLL
             }
             return paso;
         }
-
     }
 }

@@ -13,6 +13,7 @@ namespace Entidades
     {
         [Key]
         public int AnalisisDetalleId { get; set; }
+        public int AnalisisId { get; set; }
         public string Resultado { get; set; }
         public int TiposId { get; set; }
         public decimal Precio { get; set; }
@@ -20,6 +21,7 @@ namespace Entidades
         public AnalisisDetalle()
         {
             AnalisisDetalleId = 0;
+            AnalisisId = 0;
             TiposId = 0;
             Resultado = string.Empty;
             Precio = 0;

@@ -12,7 +12,7 @@
     <script src="/Scripts/popper.min.js"></script>
     <script src="/Scripts/bootstrap.min.js"></script>
     <script src="/Scripts/toastr.min.js"></script>
-    <title><%: Page.Title %> de Analisis</title>
+    <title><%: Page.Title %>Consultorio Medico</title>
 
     <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
     </asp:ContentPlaceHolder>

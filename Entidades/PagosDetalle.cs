@@ -13,6 +13,7 @@ namespace Entidades
     {
         [Key]
         public int PagosDetalleId { get; set; }
+        public int PagosId { get; set; }
         public int AnalisisId { get; set; }
         public int PacienteId { get; set; }
         public decimal MontoAnalisis { get; set; }
@@ -20,17 +21,19 @@ namespace Entidades
         public PagosDetalle()
         {
             PagosDetalleId = 0;
+            PagosId = 0;
             AnalisisId = 0;
             PacienteId = 0;
             MontoAnalisis = 0;
             MontoPagado = 0;
         }
-        public PagosDetalle(int Pacienteid, int analisisid, decimal montoanalisis, decimal montopagado)
+        public PagosDetalle(int pagosId,int Pacienteid, int analisisid, decimal montoanalisis, decimal montopagado)
         {
             AnalisisId = analisisid;
             MontoAnalisis = montoanalisis;
             MontoPagado = montopagado;
             PacienteId = Pacienteid;
+            PagosId = pagosId;
         }
     }
 }

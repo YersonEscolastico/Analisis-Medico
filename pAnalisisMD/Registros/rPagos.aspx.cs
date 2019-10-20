@@ -20,7 +20,9 @@ namespace pAnalisisMD.Registros
                 ValoresDePaciente();
                 ViewState["Pagos"] = new Pagos();
                 BindGrid();
+                IDTextBox.Text = "0";
             }
+
         }
 
         private void ValoresDeDropdowns()
@@ -137,7 +139,7 @@ namespace pAnalisisMD.Registros
             }
 
             P.Detalle.Add(new PagosDetalle(
-                Utils.ToInt(PacienteDropDownList.SelectedValue), Utils.ToInt(AnalisisDropDown.SelectedValue),
+                  Utils.ToInt(IDTextBox.Text),Utils.ToInt(PacienteDropDownList.SelectedValue), Utils.ToInt(AnalisisDropDown.SelectedValue),
                 A.Balance,
                 Utils.ToDecimal(MontoPagadoTextBox.Text)
                 ));
